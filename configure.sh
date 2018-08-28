@@ -18,7 +18,7 @@ export TOOLS_PATH=$PWD/tools
 export UPGRADE_PATCH=UpgradePatch
 
 # 编译好的升级补丁路径
-export UPGRADE_PKG_PATH=$PWD/$UPGRADE_PATCH
+export UPGRADE_PATCH_PATH=$PWD/$UPGRADE_PATCH
 
 # 驱动源码路径
 export SRC_PATH=$PWD/src
@@ -27,11 +27,11 @@ case $1 in
 
 # 从Github下载交叉编译工具和源码
 download)
-	git clone --depth=1 https://github.com/raspberrypi/tools.git $TOOLS_PATH \
-	&& git clone -b $KERNEL_VERSION --depth=1 https://github.com/raspberrypi/linux.git $LIUNX_PATH \
-	&& mkdir .cache \
-	&& cp -r linux .cache/ \
-	&& cp -r tools .cache/
+        mkdir .cache \
+	&& git clone --depth=1 https://github.com/raspberrypi/tools.git .cache/tools \
+	&& git clone -b $KERNEL_VERSION --depth=1 https://github.com/raspberrypi/linux.git ./cache/$KERNEL_VERSION \
+	&& cp -r .cache/$KERNEL_VERSION $LINUX_PATH \
+	&& cp -r .cache/tools $LINUX_PATH
 	;;
 
 # 从Gitee下载交叉编译工具和源码
@@ -45,7 +45,7 @@ download-gitee)
 
 # 净化目录
 purge)
-	rm -rf $UPGRADE_PKG_PATH* \
+	rm -rf $UPGRADE_PATCH_PATH*
 	&& rm -rf ./linux \
 	&& rm -rf ./tools \
 	&& rm -rf .cache
@@ -53,9 +53,9 @@ purge)
 
 # 清除编译
 clean)
-	rm -rf $UPGRADE_PKG_PATH* \
-	&& rm -rf ./linux \
-	&& cp -r linux .cache/
+	rm -rf $UPGRADE_PATCH_PATH*
+	rm -rf ./linux
+	cp -r .cache/linux linux
 	;;
 
 # 编译
