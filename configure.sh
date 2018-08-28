@@ -20,19 +20,18 @@ export TEMP_PATH=$CONTEXT_PATH/temp-$KERNEL_VERSION
 
 # 缓冲目录
 export CACHE_PATH=$CONTEXT_PATH/.cache
-
+# 交叉编译工具路径
+export TOOLS_PATH=$CACHE_PATH/tools
 
 
 # 驱动源码路径
 export SRC_PATH=$CONTEXT_PATH/src
-
 # 编译时系统内核源码路径
 export LINUX_PATH=$TEMP_PATH/linux
-# 编译时交叉编译工具路径
-export TOOLS_PATH=$TEMP_PATH/tools
 # 编译好的升级补丁路径
 export UPGRADE_PATCH_PATH=$TEMP_PATH/UpgradePatch
 
+export PATH=$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin:$PATH
 
 case $1 in
 
@@ -52,8 +51,8 @@ download-gitee)
 
 # 净化目录
 purge)
-	rm -rf $CACHE_PATH \
-	&& rm -rf $TEMP_PATH
+	rm -rf $CACHE_PATH
+	rm -rf $TEMP_PATH
 	;;
 
 # 清除编译
@@ -65,14 +64,10 @@ clean)
 build)
 	mkdir $TEMP_PATH \
 	&& cp -r $CACHE_PATH/linux-$KERNEL_VERSION $LINUX_PATH \
-	&& cp -r $CACHE_PATH/tools $TOOLS_PATH \
-	&& export PATH=$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin:$PATH \
 	&& cp $SRC_PATH/public/simcom_wwan.c $LINUX_PATH/drivers/net/usb \
 	&& cp $SRC_PATH/$KERNEL_VERSION/option.c $LINUX_PATH/drivers/usb/serial/option.c \
 	&& echo "\nobj-\$(CONFIG_USB_USBNET) += usbnet.o simcom_wwan.o\n" >> $LINUX_PATH/drivers/net/usb/Makefile \
-	&& $SRC_PATH/public/merge_config.py $SRC_PATH/public/diff/bcm2709_defconfig.diff \ 
-	$LINUX_PATH/arch/arm/configs/bcm2709_defconfig \ 
-	$LINUX_PATH/arch/arm/configs/bcm2709_defconfig_diff \
+	&& /usr/bin/python3 $SRC_PATH/public/merge_config.py $SRC_PATH/public/diff/bcm2709_defconfig.diff $LINUX_PATH/arch/arm/configs/bcm2709_defconfig $LINUX_PATH/arch/arm/configs/bcm2709_defconfig_diff \
 	&& cd $LINUX_PATH \
 	&& make mrproper \
 	&& make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2709_defconfig_diff \
