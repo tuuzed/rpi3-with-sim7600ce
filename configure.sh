@@ -1,5 +1,12 @@
 #! /bin/sh
 
+# 内核版本
+# rpi-4.9.y
+# rpi-4.9.y-stable
+# rpi-4.13.y
+
+export KERNEL_VERSION=rpi-4.13.y
+
 # 上下文路径
 export CONTEXT_PATH=$PWD
 
@@ -9,17 +16,12 @@ echo "工作路径:" $CONTEXT_PATH
 export CONFIG_SPEED_UP=6
 
 # 编译临时目录
-export TEMP_PATH=$CONTEXT_PATH/temp
+export TEMP_PATH=$CONTEXT_PATH/temp-$KERNEL_VERSION
 
 # 缓冲目录
 export CACHE_PATH=$CONTEXT_PATH/.cache
 
-# 内核版本
-# rpi-4.9.y
-# rpi-4.9.y-stable
-# rpi-4.13.y
 
-export KERNEL_VERSION=rpi-4.13.y
 
 # 驱动源码路径
 export SRC_PATH=$CONTEXT_PATH/src
@@ -68,7 +70,9 @@ build)
 	&& cp $SRC_PATH/public/simcom_wwan.c $LINUX_PATH/drivers/net/usb \
 	&& cp $SRC_PATH/$KERNEL_VERSION/option.c $LINUX_PATH/drivers/usb/serial/option.c \
 	&& echo "\nobj-\$(CONFIG_USB_USBNET) += usbnet.o simcom_wwan.o\n" >> $LINUX_PATH/drivers/net/usb/Makefile \
-	&& $SRC_PATH/public/merge_config.py $SRC_PATH/public/diff/bcm2709_defconfig.diff \ $LINUX_PATH/arch/arm/configs/bcm2709_defconfig $LINUX_PATH/arch/arm/configs/my_bcm2709_defconfig
+	&& $SRC_PATH/public/merge_config.py $SRC_PATH/public/diff/bcm2709_defconfig.diff \ 
+	$LINUX_PATH/arch/arm/configs/bcm2709_defconfig \ 
+	$LINUX_PATH/arch/arm/configs/my_bcm2709_defconfig \
 	&& cd $LINUX_PATH \
 	&& make mrproper \
 	&& make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- my_bcm2709_defconfig \
