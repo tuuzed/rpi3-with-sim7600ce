@@ -557,6 +557,8 @@ struct option_blacklist_info {
 	const unsigned long reserved;
 };
 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BEGIN
+
 #define SIMCOM_SIM7600_VID 0x1E0E
 #define SIMCOM_SIM7600_PID 0x9001
 
@@ -564,6 +566,8 @@ struct option_blacklist_info {
 static const struct option_blacklist_info simcom_sim7600_blacklist = {
 	.reserved = BIT(5),
 };
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 
 static const struct option_blacklist_info four_g_w14_blacklist = {
 	.sendsetup = BIT(0) | BIT(1),
@@ -702,9 +706,12 @@ static const struct option_blacklist_info yuga_clm920_nc5_blacklist = {
 
 static const struct usb_device_id option_ids[] = {
 	
+	#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BEGIN
+
 	{ USB_DEVICE(SIMCOM_SIM7600_VID, SIMCOM_SIM7600_PID),
 		.driver_info = (kernel_ulong_t)& simcom_sim7600_blacklist},
 	
+	#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 	
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_COLT) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA) },

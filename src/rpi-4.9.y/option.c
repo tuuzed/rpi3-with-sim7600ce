@@ -701,10 +701,11 @@ static const struct option_blacklist_info yuga_clm920_nc5_blacklist = {
 };
 
 static const struct usb_device_id option_ids[] = {
-	// BEGIN for SIM7600 modem for NDIS
+	
 	{ USB_DEVICE(SIMCOM_SIM7600_VID, SIMCOM_SIM7600_PID),
 		.driver_info = (kernel_ulong_t)& simcom_sim7600_blacklist},
-	// END for SIM7600 modem for NDIS
+	
+	
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_COLT) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA_LIGHT) },
