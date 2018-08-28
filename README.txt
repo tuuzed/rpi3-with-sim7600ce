@@ -1,7 +1,7 @@
 
 Step1:
 
-  ./configure.sh cloneall
+  ./configure.sh download
 
 Step2:
 

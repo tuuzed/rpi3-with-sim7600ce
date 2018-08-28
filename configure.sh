@@ -17,6 +17,7 @@ export CACHE_PATH=$CONTEXT_PATH/.cache
 # 内核版本
 # rpi-4.9.y
 # rpi-4.9.y-stable
+# rpi-4.13.y
 
 export KERNEL_VERSION=rpi-4.13.y
 
@@ -66,11 +67,11 @@ build)
 	&& export PATH=$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin:$PATH \
 	&& cp $SRC_PATH/public/simcom_wwan.c $LINUX_PATH/drivers/net/usb \
 	&& cp $SRC_PATH/$KERNEL_VERSION/option.c $LINUX_PATH/drivers/usb/serial/option.c \
-	&& cp $SRC_PATH/$KERNEL_VERSION/bcm2709_defconfig $LINUX_PATH/arch/arm/configs/bcm2709_defconfig \
 	&& echo "\nobj-\$(CONFIG_USB_USBNET) += usbnet.o simcom_wwan.o\n" >> $LINUX_PATH/drivers/net/usb/Makefile \
+	&& $SRC_PATH/public/merge_config.py $SRC_PATH/public/diff/bcm2709_defconfig.diff \ $LINUX_PATH/arch/arm/configs/bcm2709_defconfig $LINUX_PATH/arch/arm/configs/my_bcm2709_defconfig
 	&& cd $LINUX_PATH \
 	&& make mrproper \
-	&& make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2709_defconfig \
+	&& make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- my_bcm2709_defconfig \
 	&& make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j $CONFIG_SPEED_UP zImage modules dtbs \
 	&& mkdir $UPGRADE_PATCH_PATH \
 	&& make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install INSTALL_MOD_PATH=$UPGRADE_PATCH_PATH \
