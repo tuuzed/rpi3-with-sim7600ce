@@ -3,7 +3,7 @@ import sys
 
 
 def split_config(config):
-    with open(diff_config, mode='r') as f:
+    with open(config, mode='r') as f:
         lines = f.readlines()
     d = {}
     for line in lines:
@@ -45,4 +45,5 @@ def merge_config(diff_config, raw_config, out_config):
 
 if __name__ == '__main__':
     # diff_config, raw_config, out_config
+    
     merge_config(sys.argv[1], sys.argv[2], sys.argv[3])

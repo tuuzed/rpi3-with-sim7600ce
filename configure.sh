@@ -1,4 +1,5 @@
 #! /bin/sh
+set -v on
 
 # 内核版本
 # rpi-4.9.y
