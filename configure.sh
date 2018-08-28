@@ -43,7 +43,7 @@ download-gitee)
 
 # 净化目录
 purge)
-	rm -rf $UPGRADE_PATCH_PATH*
+	rm -rf $UPGRADE_PATCH_PATH* \
 	&& rm -rf ./temp \
 	&& rm -rf .cache
 	;;
