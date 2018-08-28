@@ -40,6 +40,9 @@ def merge_config(diff_config, raw_config, out_config):
     with open(out_config, mode='w') as f:
         f.writelines(lines)
 
+    with open(out_config, mode='r') as f:
+       print(f.readlines())
+
 if __name__ == '__main__':
     # diff_config, raw_config, out_config
     merge_config(sys.argv[1], sys.argv[2], sys.argv[3])
