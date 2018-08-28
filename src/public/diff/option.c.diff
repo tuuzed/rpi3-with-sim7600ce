@@ -1,0 +1,33 @@
+
+...
+
+struct option_blacklist_info {
+	/* bitmask of interface numbers blacklisted for send_setup */
+	const unsigned long sendsetup;
+	/* bitmask of interface numbers that are reserved */
+	const unsigned long reserved;
+};
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BEGIN
+
+#define SIMCOM_SIM7600_VID 0x1E0E
+#define SIMCOM_SIM7600_PID 0x9001
+
+//for SIM7600 modem for NDIS
+static const struct option_blacklist_info simcom_sim7600_blacklist = {
+	.reserved = BIT(5),
+};
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
+
+
+static const struct usb_device_id option_ids[] = {
+	
+	#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BEGIN
+
+	{ USB_DEVICE(SIMCOM_SIM7600_VID, SIMCOM_SIM7600_PID),
+		.driver_info = (kernel_ulong_t)& simcom_sim7600_blacklist},
+	
+	#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
+
+...

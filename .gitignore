@@ -1,2 +1,3 @@
 .cache/
-temp/
+.vscode/
+temp*

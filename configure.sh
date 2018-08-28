@@ -15,7 +15,10 @@ export TEMP_PATH=$CONTEXT_PATH/temp
 export CACHE_PATH=$CONTEXT_PATH/.cache
 
 # 内核版本
-export KERNEL_VERSION=rpi-4.9.y-stable
+# rpi-4.9.y
+# rpi-4.9.y-stable
+
+export KERNEL_VERSION=rpi-4.13.y
 
 # 驱动源码路径
 export SRC_PATH=$CONTEXT_PATH/src
