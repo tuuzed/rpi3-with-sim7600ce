@@ -1,17 +1,52 @@
 #! /bin/sh
-#set -v on
 
 # 内核版本
 # rpi-4.9.y
 # rpi-4.9.y-stable
 # rpi-4.13.y
 
-export KERNEL_VERSION=rpi-4.13.y
+export KERNEL_VERSION=$2
+
+
+# 显示帮助信息
+showHelpInfo(){
+	echo ""
+	echo "如何使用: ./configure.sh <command> <version>"
+	echo ""
+	echo "    command: download           从Github下载交叉编译工具和源码"
+	echo "    command: download-gitee     从Gitee下载交叉编译工具和源码"
+	echo "    command: purge              净化目录"
+	echo "    command: clean              清除编译"
+	echo "    command: build              编译"
+	echo ""
+	echo "    version: rpi-4.9.y"
+	echo "    version: rpi-4.9.y-stable"
+	echo "    version: rpi-4.13.y"
+	echo ""
+	exit
+}
+
+case $KERNEL_VERSION in
+
+rpi-4.9.y)
+	echo "版本:" $KERNEL_VERSION
+	;;
+rpi-4.9.y-stable)
+	echo "版本:" $KERNEL_VERSION
+	;;
+rpi-4.13.y)
+	echo "版本:" $KERNEL_VERSION
+	;;
+*)
+	showHelpInfo
+	;;
+esac
 
 # 上下文路径
 export CONTEXT_PATH=$PWD
 
 echo "工作路径:" $CONTEXT_PATH
+
 
 # 多线程加速参数配置,一般配置成CPU核心数的1.5倍
 export CONFIG_SPEED_UP=6
@@ -82,15 +117,7 @@ build)
 	;;
 
 *)
-	echo ""
-	echo "如何使用: ./configure.sh [command]"
-	echo ""
-	echo "    command: download           从Github下载交叉编译工具和源码"
-	echo "    command: download-gitee     从Gitee下载交叉编译工具和源码"
-	echo "    command: purge              净化目录"
-	echo "    command: clean              清除编译"
-	echo "    command: build              编译"
-	echo ""
+	showHelpInfo
 	;;
 
 esac
